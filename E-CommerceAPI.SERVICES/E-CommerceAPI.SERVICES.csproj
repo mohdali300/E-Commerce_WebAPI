@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Repositories\Interfaces\" />
     <Folder Include="Repositories\Services\" />
     <Folder Include="UOW\IUnitOfWork\" />
@@ -32,6 +31,10 @@
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.5.2" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.5.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\E-CommerceAPI.ENTITES\E-CommerceAPI.ENTITIES.csproj" />
   </ItemGroup>
 
 </Project>

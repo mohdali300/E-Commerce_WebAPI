@@ -18,15 +18,18 @@ namespace E_CommerceAPI.ENTITES.Models
         public double? DiscountPercentage { get; set; }
         public byte[]? Image { get; set; }
         public int? CategoryId { get; set; }
+        public int? BrandId { get; set; }
 
         [JsonIgnore]
         public double? AfterDiscount => Price - (Price * (DiscountPercentage / 100));
 
         [ForeignKey("CategoryId")]
         public virtual Category? Category { get; set; }
+        [ForeignKey("BrandId")]
+        public virtual Brand? Brand { get; set; }
         public virtual ICollection<OrderItems>? orderItems { get; set; }
         public virtual ICollection<WishlistItems>? wishlistItems { get; set; }
-
+        public virtual ICollection<CartItems>? cartItems { get; set; }
 
     }
 }
