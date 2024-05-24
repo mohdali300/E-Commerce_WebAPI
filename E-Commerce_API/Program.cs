@@ -23,6 +23,8 @@ namespace E_Commerce_API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddAutoMapper(typeof(StartupBase));
+
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ECommerceDbContext>();
             builder.Services.AddDbContext<ECommerceDbContext>(options=>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))

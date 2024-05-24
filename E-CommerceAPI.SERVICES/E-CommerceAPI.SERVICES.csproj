@@ -8,13 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\Interfaces\" />
-    <Folder Include="Repositories\Services\" />
-    <Folder Include="UOW\IUnitOfWork\" />
-    <Folder Include="UOW\UnitOfWork\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.5" />
