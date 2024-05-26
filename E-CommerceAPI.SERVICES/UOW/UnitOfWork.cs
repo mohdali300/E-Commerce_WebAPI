@@ -4,6 +4,7 @@ using E_CommerceAPI.SERVICES.Data;
 using E_CommerceAPI.SERVICES.Repositories.GenericRepository;
 using E_CommerceAPI.SERVICES.Repositories.Interfaces;
 using E_CommerceAPI.SERVICES.Repositories.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -19,6 +20,7 @@ namespace E_CommerceAPI.SERVICES.UOW
         private readonly ECommerceDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public IAccountRepository Customers { get; private set; }
@@ -33,14 +35,15 @@ namespace E_CommerceAPI.SERVICES.UOW
         public IGenericRepository<WishlistItems> WishlistItems { get; private set; }
 
         public UnitOfWork(ECommerceDbContext context, IConfiguration configuration,
-            UserManager<ApplicationUser> userManager, IMapper mapper)
+            UserManager<ApplicationUser> userManager, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _configuration = configuration;
             _userManager=userManager;
             _mapper=mapper;
+            _httpContextAccessor=httpContextAccessor;
 
-            Customers = new AccountRepository(_context,_userManager,_configuration,_mapper);
+            Customers = new AccountRepository(_context,_userManager,_configuration,_mapper, _httpContextAccessor);
             Carts = new GenericRepository<Cart>(_context);
             CartItems = new GenericRepository<CartItems>(_context);
             Categories= new GenericRepository<Category>(_context);

@@ -63,5 +63,18 @@ namespace E_Commerce_API.Controllers
             }
             return BadRequest(ModelState);
         }
+
+        [HttpPut("EditProfile")]
+        public async Task<IActionResult> UpdateProfile([FromBody]UserDto dto, [FromHeader] string currentEmail)
+        {
+            if (ModelState.IsValid)
+            {
+                var account=await _unitOfWork.Customers.UpdateProfile(dto, currentEmail);
+                if (account != null)
+                    return StatusCode(account.StatusCode, account.Message);
+                return StatusCode(account.StatusCode, account.Message);
+            }
+            return BadRequest(ModelState);
+        }
     }
 }

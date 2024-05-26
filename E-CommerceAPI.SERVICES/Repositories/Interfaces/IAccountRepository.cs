@@ -13,10 +13,11 @@ namespace E_CommerceAPI.SERVICES.Repositories.Interfaces
     public interface IAccountRepository:IGenericRepository<ApplicationUser>
     {
         public Task<ResponseDto> LoginAsync(LoginDto login);
-        public Task<ResponseDto> GetRefreshToken(string Email);
+        public Task<ResponseDto> GetRefreshToken(string email);
         public Task<ResponseDto> RegisterAsync(RegisterDto register);
-        public Task<ResponseDto> UnRegisterAsync(LoginDto dto);
-        public Task<ResponseDto> ChangePassword(PasswordSettingDto Password);
+        public Task<ResponseDto> DeleteAccountAsync(LoginDto dto);
+        public Task<ResponseDto> ChangePassword(PasswordSettingDto password);
+        public Task<ResponseDto> UpdateProfile(UserDto user,string currentEmail);
 
     }
 }

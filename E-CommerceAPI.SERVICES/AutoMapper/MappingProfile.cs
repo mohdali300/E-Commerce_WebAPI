@@ -14,6 +14,7 @@ namespace E_CommerceAPI.SERVICES.AutoMapper
         public MappingProfile()
         {
             CreateMap<RegisterDto,ApplicationUser>().ReverseMap();
+            CreateMap<UserDto,ApplicationUser>().ReverseMap();
 
         }
     }

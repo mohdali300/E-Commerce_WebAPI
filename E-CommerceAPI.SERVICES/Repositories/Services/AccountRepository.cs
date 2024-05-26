@@ -5,6 +5,7 @@ using E_CommerceAPI.ENTITES.Models;
 using E_CommerceAPI.SERVICES.Data;
 using E_CommerceAPI.SERVICES.Repositories.GenericRepository;
 using E_CommerceAPI.SERVICES.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -25,13 +26,16 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AccountRepository(ECommerceDbContext context, UserManager<ApplicationUser> userManager,
-            IConfiguration configuration, IMapper mapper) : base(context)
+            IConfiguration configuration, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+            : base(context)
         {
-            _userManager=userManager;
-            _configuration=configuration;
-            _mapper=mapper;
+            _userManager = userManager;
+            _configuration = configuration;
+            _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -214,9 +218,83 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
 
         }
 
-        public Task<ResponseDto> UnRegisterAsync(LoginDto dto)
+        private async Task<ApplicationUser> GetCurrentUserAsync()
         {
-            throw new NotImplementedException();
+            var userClaim = _httpContextAccessor.HttpContext.User;
+
+            return await _userManager.GetUserAsync(userClaim);
+        }
+
+        public async Task<ResponseDto> UpdateProfile(UserDto dto,string currentEmail)
+        {
+            var user =await _userManager.FindByEmailAsync(currentEmail);
+            if (user == null)
+            {
+                return new ResponseDto
+                {
+                    Message = "An error occured, user not found!",
+                    IsSucceeded = false,
+                    StatusCode = 400,
+                };
+            }
+
+            try
+            {
+                //user = _mapper.Map<ApplicationUser>(dto);
+                user.FirstName = dto.FirstName;
+                user.PhoneNumber = dto.PhoneNumber;
+                user.LastName = dto.LastName;
+                user.Email = dto.Email;
+                user.Address=dto.Address;
+                await _userManager.UpdateAsync(user);
+                return new ResponseDto
+                {
+                    Message = "Updated your profile successfully.",
+                    IsSucceeded = true,
+                    StatusCode = 200,
+                };
+            }
+            catch
+            {
+                return new ResponseDto
+                {
+                    Message = "Cannot update or edit your profile, try again!",
+                    IsSucceeded = false,
+                    StatusCode = 400,
+                };
+            }
+
+        }
+
+        public async Task<ResponseDto> DeleteAccountAsync(LoginDto dto)
+        {
+            var user = await _userManager.FindByEmailAsync(dto.Email);
+            if (user == null || await _userManager.CheckPasswordAsync(user, dto.Password))
+            {
+                return new ResponseDto
+                {
+                    Message = "Email or current password is INCORRECT!",
+                    IsSucceeded = false,
+                    StatusCode = 400,
+                };
+            }
+
+            var result=await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                return new ResponseDto
+                {
+                    Message = "Failed to delete your account, try again later!",
+                    IsSucceeded = false,
+                    StatusCode = 400,
+                };
+            }
+            return new ResponseDto
+            {
+                Message = "Your Account deleted Successfully,we hope you will back again.",
+                IsSucceeded = true,
+                StatusCode = 200,
+            };
         }
 
         public async Task<ResponseDto> ChangePassword(PasswordSettingDto dto)
@@ -232,7 +310,7 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
                 };
             }
 
-            IdentityResult result = await _userManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.NewPassword);
+            var result = await _userManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.NewPassword);
             if(!result.Succeeded)
             {
                 return new ResponseDto
