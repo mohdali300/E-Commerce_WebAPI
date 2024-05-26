@@ -41,5 +41,29 @@ namespace E_CommerceAPI.SERVICES.Repositories.GenericRepository
             return model;
         }
 
+        public async Task<T> UpdateAsync(T model)
+        {
+            T entity = await _context.Set<T>().FindAsync(model);
+            if (entity != null)
+            {
+                _context.Entry(entity).CurrentValues.SetValues(model);
+                _context.Entry(entity).State= EntityState.Modified;
+                return entity;
+            }
+            return null;
+        }
+
+        public async Task<T> DeleteAsync(int Id)
+        {
+            T entity = await _context.Set<T>().FindAsync(Id);
+            if(entity != null)
+            {
+                _context.Set<T>().Remove(entity);
+                //await _context.SaveChangesAsync();
+                return entity;
+            }
+            return null;
+        }
+
     }
 }
