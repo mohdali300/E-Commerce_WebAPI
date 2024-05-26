@@ -219,9 +219,35 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
             throw new NotImplementedException();
         }
 
-        public Task<ResponseDto> ChangePassword(PasswordSettingDto Password)
+        public async Task<ResponseDto> ChangePassword(PasswordSettingDto dto)
         {
-            throw new NotImplementedException();
+            var user=await _userManager.FindByEmailAsync(dto.Email);
+            if(user==null || await _userManager.CheckPasswordAsync(user,dto.CurrentPassword))
+            {
+                return new ResponseDto
+                {
+                    Message = "Email or current password is INCORRECT!",
+                    IsSucceeded = false,
+                    StatusCode = 400,
+                };
+            }
+
+            IdentityResult result = await _userManager.ChangePasswordAsync(user, dto.CurrentPassword, dto.NewPassword);
+            if(!result.Succeeded)
+            {
+                return new ResponseDto
+                {
+                    Message = "Failed to change password, try again!",
+                    IsSucceeded = false,
+                    StatusCode = 400,
+                };
+            }
+            return new ResponseDto
+            {
+                Message = "Your Password Changed Successfully.",
+                IsSucceeded = true,
+                StatusCode = 200,
+            };
         }
 
 
