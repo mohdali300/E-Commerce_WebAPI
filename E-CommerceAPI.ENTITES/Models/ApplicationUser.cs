@@ -18,6 +18,7 @@ namespace E_CommerceAPI.ENTITES.Models
         public virtual ICollection<Wishlist>? Wishlists { get; set; }
         public virtual ICollection<Payment>? Payments { get; set; }
         public virtual ICollection<Review>? Reviews { get; set; }
+        public virtual ICollection<RefreshToken>? RefreshTokens { get; set; }
 
     }
 }

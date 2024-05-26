@@ -32,6 +32,5 @@ namespace E_CommerceAPI.SERVICES.Data
         public DbSet<Wishlist> Wishlists { get; set; }
         public DbSet<WishlistItems> WishlistItems { get; set; }
 
-
     }
 }

@@ -1,6 +1,7 @@
 
 using E_CommerceAPI.ENTITES.Models;
 using E_CommerceAPI.SERVICES.Data;
+using E_CommerceAPI.SERVICES.UOW;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -92,6 +93,9 @@ namespace E_Commerce_API
 
                 });
             });
+
+            //injection
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             var app = builder.Build();
 
