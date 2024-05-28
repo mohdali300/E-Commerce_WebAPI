@@ -13,12 +13,12 @@ namespace E_CommerceAPI.SERVICES.UOW
     {
 
         IAccountRepository Customers { get; }
+        IProductRepository Products { get; }
         IGenericRepository<Cart> Carts { get; }
         IGenericRepository<CartItems> CartItems { get; }
         IGenericRepository<Category> Categories { get; }
         IGenericRepository<Order> Orders { get; }
         IGenericRepository<OrderItems> OrderItems { get; }
-        IGenericRepository<Product> Products { get; }
         IGenericRepository<Review> Reviews { get; }
         IGenericRepository<Wishlist> Wishlists { get; }
         IGenericRepository<WishlistItems> WishlistItems { get; }

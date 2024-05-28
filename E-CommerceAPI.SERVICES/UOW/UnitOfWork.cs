@@ -22,14 +22,15 @@ namespace E_CommerceAPI.SERVICES.UOW
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
+        //private readonly IUnitOfWork _unitOfWork;
 
         public IAccountRepository Customers { get; private set; }
+        public IProductRepository Products { get; private set; }
         public IGenericRepository<Cart> Carts { get; private set; }
         public IGenericRepository<CartItems> CartItems { get; private set; }
         public IGenericRepository<Category> Categories { get; private set; }
         public IGenericRepository<Order> Orders { get; private set; }
         public IGenericRepository<OrderItems> OrderItems { get; private set; }
-        public IGenericRepository<Product> Products { get; private set; }
         public IGenericRepository<Review> Reviews { get; private set; }
         public IGenericRepository<Wishlist> Wishlists { get; private set; }
         public IGenericRepository<WishlistItems> WishlistItems { get; private set; }
@@ -42,6 +43,7 @@ namespace E_CommerceAPI.SERVICES.UOW
             _userManager=userManager;
             _mapper=mapper;
             _httpContextAccessor=httpContextAccessor;
+            //_unitOfWork=unitOfWork;
 
             Customers = new AccountRepository(_context,_userManager,_configuration,_mapper, _httpContextAccessor);
             Carts = new GenericRepository<Cart>(_context);
@@ -49,7 +51,7 @@ namespace E_CommerceAPI.SERVICES.UOW
             Categories= new GenericRepository<Category>(_context);
             Orders = new GenericRepository<Order>(_context);
             OrderItems= new GenericRepository<OrderItems>(_context);
-            Products = new GenericRepository<Product>(_context);
+            Products = new ProductRepository(_context, _mapper);
             Reviews= new GenericRepository<Review>(_context);
             Wishlists=new GenericRepository<Wishlist>(_context);
             WishlistItems=new GenericRepository<WishlistItems>(_context);

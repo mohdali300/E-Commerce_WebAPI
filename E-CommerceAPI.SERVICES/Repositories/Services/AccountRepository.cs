@@ -51,14 +51,15 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
                 };
             }
 
-            //var user = _mapper.Map<ApplicationUser>(register);
-            var user = new ApplicationUser
-            {
-                FirstName = register.FirstName,
-                LastName = register.LastName,
-                Email = register.Email,
-                UserName = register.UserName,
-            };
+            var user = _mapper.Map<ApplicationUser>(register);
+            //var user = new ApplicationUser
+            //{
+            //    FirstName = register.FirstName,
+            //    LastName = register.LastName,
+            //    Email = register.Email,
+            //    UserName = register.UserName,
+            //};
+
             var result = await _userManager.CreateAsync(user, register.Password);
 
             if (!result.Succeeded)     

@@ -1,5 +1,6 @@
-
+using AutoMapper;
 using E_CommerceAPI.ENTITES.Models;
+using E_CommerceAPI.SERVICES.AutoMapper;
 using E_CommerceAPI.SERVICES.Data;
 using E_CommerceAPI.SERVICES.UOW;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,7 +25,7 @@ namespace E_Commerce_API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddAutoMapper(typeof(StartupBase));
+            builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ECommerceDbContext>();
             builder.Services.AddDbContext<ECommerceDbContext>(options=>
@@ -115,6 +116,7 @@ namespace E_Commerce_API
             app.MapControllers();
 
             app.Run();
+
         }
     }
 }

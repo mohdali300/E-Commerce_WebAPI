@@ -10,7 +10,7 @@ namespace E_CommerceAPI.SERVICES.Repositories.GenericRepository
 {
     public class GenericRepository<T>:IGenericRepository<T> where T : class
     {
-        private readonly ECommerceDbContext _context;
+        protected readonly ECommerceDbContext _context;
 
         public GenericRepository(ECommerceDbContext context)
         {
