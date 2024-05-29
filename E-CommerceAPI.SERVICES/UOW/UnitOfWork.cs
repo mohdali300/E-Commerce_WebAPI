@@ -22,7 +22,6 @@ namespace E_CommerceAPI.SERVICES.UOW
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
-        //private readonly IUnitOfWork _unitOfWork;
 
         public IAccountRepository Customers { get; private set; }
         public IProductRepository Products { get; private set; }
@@ -43,7 +42,6 @@ namespace E_CommerceAPI.SERVICES.UOW
             _userManager=userManager;
             _mapper=mapper;
             _httpContextAccessor=httpContextAccessor;
-            //_unitOfWork=unitOfWork;
 
             Customers = new AccountRepository(_context,_userManager,_configuration,_mapper, _httpContextAccessor);
             Carts = new GenericRepository<Cart>(_context);

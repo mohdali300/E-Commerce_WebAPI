@@ -16,7 +16,7 @@ namespace E_CommerceAPI.ENTITES.DTOs
         [JsonIgnore]
         public double? DiscountPercentage { get; set; }
         public byte[]? Image { get; set; }
-        //public string? Category { get; set; }
-        //public string? Brand { get; set; }
+        public string? Category { get; set; }
+        public string? Brand { get; set; }
     }
 }
