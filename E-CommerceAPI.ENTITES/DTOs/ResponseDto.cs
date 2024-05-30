@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace E_CommerceAPI.ENTITES.DTOs
 {
-    public class ResponseDto
+    public class ResponseDto    //providing one class for returned data (one type of returned data) --> helps in frontend
     {
         public int StatusCode { get; set; }
         public string? Message { get; set; }

@@ -58,7 +58,7 @@ namespace E_CommerceAPI.SERVICES.UOW
 
         public async Task<int> Save()
         {
-            return _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
 
         public void Dispose()
