@@ -56,6 +56,12 @@ namespace E_Commerce_API
                 }
                 );
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("Customer", policy => policy.RequireRole("Customer"));
+            });
+
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo

@@ -22,7 +22,7 @@ namespace E_CommerceAPI.SERVICES.Repositories.Interfaces
 
         public Task<ResponseDto> AddProductAsync(AddProductDto dto);
         public Task<ResponseDto> DeleteProductAsync(int id);
-        public Task<ResponseDto> UpdateProductAsync(ProductDto dto);
+        public Task<ResponseDto> UpdateProductAsync(int id, AddProductDto dto);
 
     }
 }

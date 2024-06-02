@@ -19,6 +19,7 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
     {
         //private readonly ECommerceDbContext _context;
         private readonly IMapper _mapper;
+        private List<string> Extentions = new() { ".jpg",".png"};
 
         public ProductRepository(ECommerceDbContext context, IMapper mapper) :base(context)
         {
@@ -208,7 +209,34 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
 
         public async Task<ResponseDto> AddProductAsync(AddProductDto dto)
         {
+            var validCategory = _context.Categories.Any(c => c.Id == dto.CategoryId);
+            var vaildBrand = _context.Brands.Any(b => b.Id == dto.BrandId);
+
+            if(!validCategory || !vaildBrand)
+            {
+                return new ResponseDto
+                {
+                    StatusCode = 400,
+                    Message = "Invalid Category or Brand",
+                    IsSucceeded = false,
+                };
+            }
+
+            if (!Extentions.Contains(Path.GetExtension(dto.ImageFile.FileName).ToLower()))
+            {
+                return new ResponseDto
+                {
+                    StatusCode = 400,
+                    Message = "Invalid image extention!",
+                    IsSucceeded = false,
+                };
+            }
+
+            using var stream= new MemoryStream();
+            await dto.ImageFile.CopyToAsync(stream);
+
             var product=_mapper.Map<Product>(dto);
+            product.Image=stream.ToArray();
             await _context.Products.AddAsync(product);
             var entity = _context.Entry(product);
 
@@ -218,7 +246,7 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
                 {
                     StatusCode = 200,
                     IsSucceeded = true,
-                    Model = dto,
+                    Model = product,
                     Message = ""
                 };
             }
@@ -263,9 +291,37 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
             };
         }
 
-        public Task<ResponseDto> UpdateProductAsync(ProductDto dto)
+        public async Task<ResponseDto> UpdateProductAsync(int id, AddProductDto dto)
         {
-            throw new NotImplementedException();
+            var result = await _context.Products.FindAsync(id);
+            if(result != null)
+            {
+                var product=_mapper.Map<Product>(dto);
+                product.Id = id;
+                _context.Entry(result).CurrentValues.SetValues(product);
+                var entity= _context.Entry(result);
+                if(entity.State == EntityState.Modified)
+                {
+                    return new ResponseDto
+                    {
+                        StatusCode = 200,
+                        IsSucceeded = true,
+                        Model = product
+                    };
+                }
+                return new ResponseDto
+                {
+                    StatusCode = 400,
+                    IsSucceeded = false,
+                    Message = "Failed to update product."
+                };
+            }
+            return new ResponseDto
+            {
+                StatusCode = 400,
+                IsSucceeded = false,
+                Message = "This product does not exist."
+            };
         }
     }
 }

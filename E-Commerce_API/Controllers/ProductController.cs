@@ -116,7 +116,7 @@ namespace E_Commerce_API.Controllers
 
         [Authorize(Roles ="Admin")]
         [HttpPost("AddProduct")]
-        public async Task<IActionResult> AddProduct([FromBody] AddProductDto dto)
+        public async Task<IActionResult> AddProduct([FromForm] AddProductDto dto)
         {
             if (ModelState.IsValid)
             {
@@ -144,6 +144,23 @@ namespace E_Commerce_API.Controllers
                     return StatusCode(product.StatusCode, product.Model);
                 }
                 return StatusCode(product.StatusCode, product.Message);
+            }
+            return BadRequest(ModelState);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("UpdateProduct")]
+        public async Task<IActionResult> UpdateProduct(int id,[FromForm] AddProductDto dto)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _unitOfWork.Products.UpdateProductAsync(id,dto);
+                if (response.IsSucceeded)
+                {
+                    await _unitOfWork.Save();
+                    return StatusCode(response.StatusCode, response.Model);
+                }
+                return StatusCode(response.StatusCode, response.Message);
             }
             return BadRequest(ModelState);
         }

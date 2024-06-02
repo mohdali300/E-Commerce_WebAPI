@@ -52,13 +52,6 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
             }
 
             var user = _mapper.Map<ApplicationUser>(register);
-            //var user = new ApplicationUser
-            //{
-            //    FirstName = register.FirstName,
-            //    LastName = register.LastName,
-            //    Email = register.Email,
-            //    UserName = register.UserName,
-            //};
 
             var result = await _userManager.CreateAsync(user, register.Password);
 
@@ -78,7 +71,7 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
             }
 
             await _userManager.AddToRoleAsync(user, "Customer");
-            var JwtToken = CreateToken(user);
+            var JwtToken =await CreateToken(user);
             return new ResponseDto
             {
                 Message = "Account createdSuccessfully.",
@@ -115,7 +108,7 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
                 };
             }
 
-            var JwtToken = CreateToken(user);
+            var JwtToken =await CreateToken(user);
             var refreshToken = "";
             DateTime refreshTokenExpiration;
 
@@ -197,7 +190,7 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
             }
 
             var refreshToken=CreateRefreshToken();
-            var Token = CreateToken(user);
+            var Token =await CreateToken(user);
             user.RefreshTokens!.Add(refreshToken);
             await _userManager.UpdateAsync(user);
 
@@ -330,7 +323,7 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
         }
 
 
-        private JwtSecurityToken CreateToken(ApplicationUser user)
+        private async Task<JwtSecurityToken> CreateToken(ApplicationUser user)
         {
             var claims = new List<Claim>
             {
@@ -341,6 +334,12 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
                 new Claim("uid",user.Id)
             };
+
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
             SigningCredentials signing = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
