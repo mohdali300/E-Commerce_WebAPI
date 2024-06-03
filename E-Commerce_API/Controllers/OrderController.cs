@@ -62,10 +62,23 @@ namespace E_Commerce_API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var orders = await _unitOfWork.Orders.GetAllOrdersItems();
+                var orders = await _unitOfWork.Orders.GetAllItems();
                 if (orders.IsSucceeded)
                     return StatusCode(orders.StatusCode, orders.Model);
                 return StatusCode(orders.StatusCode, orders.Message);
+            }
+            return BadRequest(ModelState);
+        }
+
+        [HttpGet("ItemsInOrder/{orderId}")]
+        public async Task<IActionResult> GetItemsInOrder(int orderId)
+        {
+            if (ModelState.IsValid)
+            {
+                var Items = await _unitOfWork.Orders.GetItemsInOrder(orderId);
+                if (Items.IsSucceeded)
+                    return StatusCode(Items.StatusCode, Items.Model);
+                return StatusCode(Items.StatusCode, Items.Message);
             }
             return BadRequest(ModelState);
         }

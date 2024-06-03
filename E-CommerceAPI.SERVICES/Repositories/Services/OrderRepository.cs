@@ -102,7 +102,7 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
             };
         }
 
-        public async Task<ResponseDto> GetAllOrdersItems()
+        public async Task<ResponseDto> GetAllItems()
         {
             var orders = await _context.OrderItems.AsNoTracking()
                 .Include(o => o.Product).ToListAsync();
@@ -124,6 +124,40 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
                 IsSucceeded = false,
                 StatusCode = 400,
                 Message = "There is no Items yet!"
+            };
+        }
+
+        public async Task<ResponseDto> GetItemsInOrder(int orderId)
+        {
+            var order = await _context.Orders.FindAsync(orderId);
+            if (order != null)
+            {
+                order.orderItems=await _context.OrderItems.Where(o=>o.OrderId==orderId)
+                    .Include(o=>o.Product).ToListAsync();
+                if(order.orderItems != null && order.orderItems.Count > 0)
+                {
+                    var dto=_mapper.Map<List<OrderItemDto>>(order.orderItems);
+                    return new ResponseDto
+                    {
+                        StatusCode = 200,
+                        IsSucceeded = true,
+                        Model = dto
+                    };
+                }
+
+                return new ResponseDto
+                {
+                    StatusCode = 400,
+                    IsSucceeded = false,
+                    Message="There is no items yet in this order."
+                };
+            }
+
+            return new ResponseDto
+            {
+                StatusCode = 400,
+                IsSucceeded = false,
+                Message = "This order is not exist."
             };
         }
 
@@ -312,6 +346,9 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
             var order = await _context.Orders.FindAsync(id);
             if (order != null)
             {
+                var items=await _context.OrderItems.Where(oi=>oi.OrderId==id)
+                    .ToListAsync();
+                _context.OrderItems.RemoveRange(items);
                 _context.Orders.Remove(order);
                 var entity = _context.Entry(order);
                 if(entity.State== EntityState.Deleted)
