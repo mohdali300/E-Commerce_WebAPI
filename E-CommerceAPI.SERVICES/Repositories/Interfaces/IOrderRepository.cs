@@ -19,6 +19,15 @@ namespace E_CommerceAPI.SERVICES.Repositories.Interfaces
         public Task<ResponseDto> AddOrder(OrderDto dto);
         public Task<ResponseDto> AddOrderItem(OrderItems item);
 
+        public Task<ResponseDto> UpdateOrder(int id,OrderDto dto);
+        public Task<ResponseDto> UpdateOrderItem(int id,OrderItems item);
+
+        public Task<ResponseDto> DeleteOrder(int id);
+        public Task<ResponseDto> DeleteOrderItem(int id);
+
+
+
+
 
     }
 }

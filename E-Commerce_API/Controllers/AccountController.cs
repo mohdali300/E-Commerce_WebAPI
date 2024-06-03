@@ -76,5 +76,18 @@ namespace E_Commerce_API.Controllers
             }
             return BadRequest(ModelState);
         }
+
+        [HttpDelete("DeleteAccount")]
+        public async Task<IActionResult> DeleteAccount(LoginDto dto)
+        {
+            if (ModelState.IsValid)
+            {
+                var response=await _unitOfWork.Customers.DeleteAccountAsync(dto);
+                if(response.IsSucceeded)
+                    return StatusCode(response.StatusCode, response.Message);
+                return StatusCode(response.StatusCode, response.Message);
+            }
+            return BadRequest(ModelState);
+        }
     }
 }

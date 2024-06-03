@@ -101,5 +101,69 @@ namespace E_Commerce_API.Controllers
             }
             return BadRequest(ModelState);
         }
+
+        [HttpPut("EditOrder/{id}")]
+        public async Task<IActionResult> UpdateOrder(int id, OrderDto dto)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _unitOfWork.Orders.UpdateOrder(id,dto);
+                if (response.IsSucceeded)
+                {
+                    await _unitOfWork.Save();
+                    return StatusCode(response.StatusCode, response.Model);
+                }
+                return StatusCode(response.StatusCode, response.Message);
+            }
+            return BadRequest(ModelState);
+        }
+
+        [HttpPut("EditOrderItem/{id}")]
+        public async Task<IActionResult> UpdateOrderItem(int id, OrderItems item)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _unitOfWork.Orders.UpdateOrderItem(id, item);
+                if (response.IsSucceeded)
+                {
+                    await _unitOfWork.Save();
+                    return StatusCode(response.StatusCode, response.Model);
+                }
+                return StatusCode(response.StatusCode, response.Message);
+            }
+            return BadRequest(ModelState);
+        }
+
+        [HttpDelete("DeleteOrder/{id}")]
+        public async Task<IActionResult> CancelOrder(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _unitOfWork.Orders.DeleteOrder(id);
+                if (response.IsSucceeded)
+                {
+                    await _unitOfWork.Save();
+                    return StatusCode(response.StatusCode, response.Model);
+                }
+                return StatusCode(response.StatusCode, response.Message);
+            }
+            return BadRequest(ModelState);
+        }
+
+        [HttpDelete("DeleteOrderItem/{id}")]
+        public async Task<IActionResult> CancelOrderItem(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _unitOfWork.Orders.DeleteOrderItem(id);
+                if (response.IsSucceeded)
+                {
+                    await _unitOfWork.Save();
+                    return StatusCode(response.StatusCode, response.Model);
+                }
+                return StatusCode(response.StatusCode, response.Message);
+            }
+            return BadRequest(ModelState);
+        }
     }
 }

@@ -263,7 +263,7 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
         public async Task<ResponseDto> DeleteAccountAsync(LoginDto dto)
         {
             var user = await _userManager.FindByEmailAsync(dto.Email);
-            if (user == null || await _userManager.CheckPasswordAsync(user, dto.Password))
+            if (user == null || !await _userManager.CheckPasswordAsync(user, dto.Password))
             {
                 return new ResponseDto
                 {

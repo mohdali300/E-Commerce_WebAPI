@@ -213,6 +213,167 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
             };
         }
 
+        public async Task<ResponseDto> UpdateOrder(int id,OrderDto dto)
+        {
+            var result = await _context.Orders.FindAsync(id);
+            if(result != null)
+            {
+                var order = _mapper.Map<Order>(dto);
+                order.Id=id;
+                _context.Entry(result).CurrentValues.SetValues(order);
+                var entity= _context.Entry(result);
+                if (entity.State == EntityState.Modified)
+                {
+                    return new ResponseDto
+                    {
+                        StatusCode = 200,
+                        IsSucceeded = true,
+                        Model = dto
+                    };
+                }
+
+                return new ResponseDto
+                {
+                    StatusCode = 400,
+                    IsSucceeded = false,
+                    Message = "Failed to edit this order."
+                };
+            }
+
+            return new ResponseDto
+            {
+                StatusCode = 400,
+                IsSucceeded = false,
+                Message = "This Order is not exist."
+            };
+        }
+
+        public async Task<ResponseDto> UpdateOrderItem(int id,OrderItems item)
+        {
+            var result =await _context.OrderItems.FindAsync(id);
+            if (result != null)
+            {
+                if (!await _context.Products.AnyAsync(p => p.Id == item.ProductId))
+                {
+                    return new ResponseDto
+                    {
+                        IsSucceeded = false,
+                        StatusCode = 400,
+                        Message = "The Product item you try to add is not exist."
+                    };
+                }
+
+                if (!await _context.Orders.AnyAsync(o => o.Id == item.OrderId))
+                {
+                    return new ResponseDto
+                    {
+                        IsSucceeded = false,
+                        StatusCode = 400,
+                        Message = "The Order you try to add this item on is not exist."
+                    };
+                }
+
+                item.Order = await _context.Orders.FindAsync(item.OrderId);
+                item.Product = await _context.Products.FindAsync(item.ProductId);
+                if (item.Product != null)
+                    item.TotalPrice = item.Quantity * item.Product.Price;
+
+                item.Id = id;
+                _context.Entry(result).CurrentValues.SetValues(item);
+                var entity = _context.Entry(result);
+                if (entity.State == EntityState.Modified)
+                {
+                    return new ResponseDto
+                    {
+                        StatusCode = 200,
+                        IsSucceeded = true,
+                        Model = item
+                    };
+                }
+
+                return new ResponseDto
+                {
+                    StatusCode = 400,
+                    IsSucceeded = false,
+                    Message = "Failed to edit this order item."
+                };
+            }
+
+            return new ResponseDto
+            {
+                StatusCode = 400,
+                IsSucceeded = false,
+                Message = "This Order item is not exist."
+            };
+        }
+
+        public async Task<ResponseDto> DeleteOrder(int id)
+        {
+            var order = await _context.Orders.FindAsync(id);
+            if (order != null)
+            {
+                _context.Orders.Remove(order);
+                var entity = _context.Entry(order);
+                if(entity.State== EntityState.Deleted)
+                {
+                    return new ResponseDto
+                    {
+                        StatusCode = 200,
+                        IsSucceeded = true,
+                        Model = order
+                    };
+                }
+
+                return new ResponseDto
+                {
+                    StatusCode = 400,
+                    IsSucceeded = false,
+                    Message="Failed to Cancel this order."
+                };
+            }
+
+            return new ResponseDto
+            {
+                StatusCode = 400,
+                IsSucceeded = false,
+                Message = "This order already is not exist."
+            };
+        }
+
+        public async Task<ResponseDto> DeleteOrderItem(int id)
+        {
+            var item = await _context.OrderItems.FindAsync(id);
+            if (item != null)
+            {
+                _context.OrderItems.Remove(item);
+                var entity = _context.Entry(item);
+                if (entity.State == EntityState.Deleted)
+                {
+                    return new ResponseDto
+                    {
+                        StatusCode = 200,
+                        IsSucceeded = true,
+                        Model = item
+                    };
+                }
+
+                return new ResponseDto
+                {
+                    StatusCode = 400,
+                    IsSucceeded = false,
+                    Message = "Failed to delete this item."
+                };
+            }
+
+            return new ResponseDto
+            {
+                StatusCode = 400,
+                IsSucceeded = false,
+                Message = "This item already is not exist."
+            };
+        }
+
+
 
     }
 }
