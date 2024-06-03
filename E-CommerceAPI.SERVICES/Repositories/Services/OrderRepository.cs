@@ -5,6 +5,7 @@ using E_CommerceAPI.ENTITES.Models;
 using E_CommerceAPI.SERVICES.Data;
 using E_CommerceAPI.SERVICES.Repositories.GenericRepository;
 using E_CommerceAPI.SERVICES.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,10 +19,15 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
     public class OrderRepository:GenericRepository<Order>, IOrderRepository
     {
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrderRepository(ECommerceDbContext context, IMapper mapper) :base(context)
+        public OrderRepository(ECommerceDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor
+            , UserManager<ApplicationUser> userManager) :base(context)
         {
             _mapper = mapper;
+            _httpContextAccessor= httpContextAccessor;
+            _userManager= userManager;
         }
 
 
@@ -118,6 +124,92 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
                 IsSucceeded = false,
                 StatusCode = 400,
                 Message = "There is no Items yet!"
+            };
+        }
+
+        private async Task<ApplicationUser> GetCurrentUser()
+        {
+            var userClaim = _httpContextAccessor.HttpContext!.User;
+            return await _userManager.GetUserAsync(userClaim);
+        }
+
+        public async Task<ResponseDto> AddOrder(OrderDto dto)
+        {
+            var order=_mapper.Map<Order>(dto);
+            var currentUser= await GetCurrentUser();
+            if(currentUser != null)
+                order.CustomerId = currentUser.Id;
+
+            await _context.Orders.AddAsync(order);
+            var entity = _context.Entry(order);
+
+            if (entity.State == EntityState.Added)
+            {
+                return new ResponseDto
+                {
+                    StatusCode = 200,
+                    IsSucceeded = true,
+                    Model = dto
+                };
+            }
+
+            return new ResponseDto
+            {
+                IsSucceeded = false,
+                StatusCode = 400,
+                Message = "Failed to add this Order."
+            };
+        }
+
+        public async Task<ResponseDto> AddOrderItem(OrderItems item)
+        {
+            if (!await _context.Products.AnyAsync(p => p.Id == item.ProductId))
+            {
+                return new ResponseDto
+                {
+                    IsSucceeded = false,
+                    StatusCode = 400,
+                    Message = "The Product item you try to add is not exist."
+                };
+            }
+
+            if (!await _context.Orders.AnyAsync(o => o.Id == item.OrderId))
+            {
+                return new ResponseDto
+                {
+                    IsSucceeded = false,
+                    StatusCode = 400,
+                    Message = "The Order you try to add this item on is not exist."
+                };
+            }
+
+            item.Order = await _context.Orders.FindAsync(item.OrderId);
+            item.Product = await _context.Products.FindAsync(item.ProductId);
+            if(item.Product != null)
+                item.TotalPrice = item.Quantity * item.Product.Price;
+
+            await _context.OrderItems.AddAsync(item);
+            var entity = _context.Entry(item);
+            if(entity.State == EntityState.Added)
+            {
+                return new ResponseDto
+                {
+                    StatusCode = 200,
+                    IsSucceeded = true,
+                    Model = new
+                    {
+                        Item=item,
+                        Product=await _context.Products.Where(p=>p.Id==item.ProductId)
+                        .Select(p=>p.Name).FirstOrDefaultAsync(),
+                    }
+                };
+            }
+
+            return new ResponseDto
+            {
+                IsSucceeded = false,
+                StatusCode = 400,
+                Message = "Failed to add this item,try again."
             };
         }
 

@@ -30,11 +30,11 @@ namespace E_CommerceAPI.ENTITES.Models
         [ForeignKey("BrandId")]
         public virtual Brand? Brand { get; set; }
         [JsonIgnore]
-        public virtual ICollection<OrderItems>? orderItems { get; set; }
+        public virtual ICollection<OrderItems>? orderItems { get; set; }=new List<OrderItems>();
         [JsonIgnore]
-        public virtual ICollection<WishlistItems>? wishlistItems { get; set; }
+        public virtual ICollection<WishlistItems>? wishlistItems { get; set; }=new List<WishlistItems>();
         [JsonIgnore]
-        public virtual ICollection<CartItems>? cartItems { get; set; }
+        public virtual ICollection<CartItems>? cartItems { get; set; }=new List<CartItems>();
 
     }
 }

@@ -15,7 +15,7 @@ namespace E_CommerceAPI.ENTITES.Models
 
         [ForeignKey("CustomerId")]
         public virtual ApplicationUser Customer { get; set; }
-        public virtual ICollection<WishlistItems>? wishlistItems { get; set; }
+        public virtual ICollection<WishlistItems>? wishlistItems { get; set; }=new List<WishlistItems>();
 
     }
 }

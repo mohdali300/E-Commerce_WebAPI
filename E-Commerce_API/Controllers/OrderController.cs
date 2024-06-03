@@ -1,4 +1,6 @@
-﻿using E_CommerceAPI.SERVICES.UOW;
+﻿using E_CommerceAPI.ENTITES.DTOs.OrderDTO;
+using E_CommerceAPI.ENTITES.Models;
+using E_CommerceAPI.SERVICES.UOW;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -64,6 +66,38 @@ namespace E_Commerce_API.Controllers
                 if (orders.IsSucceeded)
                     return StatusCode(orders.StatusCode, orders.Model);
                 return StatusCode(orders.StatusCode, orders.Message);
+            }
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost("AddOrder")]
+        public async Task<IActionResult> AddOrder(OrderDto dto)
+        {
+            if(ModelState.IsValid)
+            {
+                var response=await _unitOfWork.Orders.AddOrder(dto);
+                if (response.IsSucceeded)
+                {
+                    await _unitOfWork.Save();
+                    return StatusCode(response.StatusCode, response.Model);
+                }
+                return StatusCode(response.StatusCode, response.Message);
+            }
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost("AddOrderItem")]
+        public async Task<IActionResult> AddOrderItem(OrderItems item)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _unitOfWork.OrderItems.AddOrderItem(item);
+                if (response.IsSucceeded)
+                {
+                    await _unitOfWork.Save();
+                    return StatusCode(response.StatusCode, response.Model);
+                }
+                return StatusCode(response.StatusCode, response.Message);
             }
             return BadRequest(ModelState);
         }

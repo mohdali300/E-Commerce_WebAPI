@@ -15,6 +15,6 @@ namespace E_CommerceAPI.ENTITES.Models
 
         [ForeignKey("ParentCategoryId")]
         public Category? ParentCategory { get; set; }
-        public virtual ICollection<Product>? Products { get; set; }
+        public virtual ICollection<Product>? Products { get; set; }=new List<Product>();
     }
 }

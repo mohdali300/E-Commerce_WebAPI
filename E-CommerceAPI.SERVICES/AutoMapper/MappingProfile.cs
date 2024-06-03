@@ -17,11 +17,13 @@ namespace E_CommerceAPI.SERVICES.AutoMapper
         {
             CreateMap<RegisterDto,ApplicationUser>().ReverseMap();
             CreateMap<UserDto,ApplicationUser>().ReverseMap();
+
             CreateMap<Product, ProductDto>()
                 .ForMember(dest => dest.Brand, src => src.MapFrom(src => src.Brand!.Name))
                 .ForMember(dest => dest.Category, src => src.MapFrom(src => src.Category!.Name))
                 .ReverseMap();
             CreateMap<Product, AddProductDto>().ReverseMap();
+
             CreateMap<Order, OrderDto>().ReverseMap();
             CreateMap<OrderItems, OrderItemDto>()
                 .ForMember(dest=>dest.ProductName,src=>src.MapFrom(src=>src.Product!.Name))

@@ -1,4 +1,6 @@
 ﻿using E_CommerceAPI.ENTITES.DTOs;
+using E_CommerceAPI.ENTITES.DTOs.OrderDTO;
+using E_CommerceAPI.ENTITES.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,10 @@ namespace E_CommerceAPI.SERVICES.Repositories.Interfaces
         public Task<ResponseDto> GetCustomerOrders();
         public Task<ResponseDto> GetOrderItems(int id);
         public Task<ResponseDto> GetAllOrdersItems();
+
+        public Task<ResponseDto> AddOrder(OrderDto dto);
+        public Task<ResponseDto> AddOrderItem(OrderItems item);
+
 
     }
 }
