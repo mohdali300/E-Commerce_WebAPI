@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using E_CommerceAPI.ENTITES.DTOs;
 using E_CommerceAPI.ENTITES.DTOs.OrderDTO;
 using E_CommerceAPI.ENTITES.DTOs.ProductDTO;
 using E_CommerceAPI.ENTITES.DTOs.UserDTO;
@@ -28,6 +29,8 @@ namespace E_CommerceAPI.SERVICES.AutoMapper
             CreateMap<OrderItems, OrderItemDto>()
                 .ForMember(dest=>dest.ProductName,src=>src.MapFrom(src=>src.Product!.Name))
                 .ReverseMap();
+
+            CreateMap<Category, CategoryDto>().ReverseMap();
         }
     }
 }
