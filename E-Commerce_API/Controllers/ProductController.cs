@@ -62,7 +62,7 @@ namespace E_Commerce_API.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpGet("BrandId/{id}")]
+        [HttpGet("ByBrandId/{id}")]
         public async Task<IActionResult> GetProductsByBrandId(int id)
         {
             if (ModelState.IsValid)
@@ -75,7 +75,7 @@ namespace E_Commerce_API.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpGet("BrandName/{name}")]
+        [HttpGet("ByBrandName/{name}")]
         public async Task<IActionResult> GetProductsByBrandName(string name)
         {
             if (ModelState.IsValid)
@@ -88,7 +88,7 @@ namespace E_Commerce_API.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpGet("CategoryId/{id}")]
+        [HttpGet("ByCategoryId/{id}")]
         public async Task<IActionResult> GetProductsByCategoryId(int id)
         {
             if (ModelState.IsValid)
@@ -101,7 +101,7 @@ namespace E_Commerce_API.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpGet("CategoryName/{name}")]
+        [HttpGet("ByCategoryName/{name}")]
         public async Task<IActionResult> GetProductsByCategoryName(string name)
         {
             if (ModelState.IsValid)

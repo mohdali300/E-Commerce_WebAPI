@@ -179,11 +179,11 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
                     Model = new AuthDto
                     {
                         Message = "There is a Token still active <3",
-                        IsAuthenticated = false,
+                        IsAuthenticated = true,
                         RefreshToken = string.Empty,
                         Token = string.Empty,
-                        Email = string.Empty,
-                        UserName = string.Empty
+                        Email = user.Email!,
+                        UserName = user.UserName!
                     }
                 };
                 
@@ -203,10 +203,10 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
                     IsAuthenticated = true,
                     RefreshToken = refreshToken.Token,
                     Token = new JwtSecurityTokenHandler().WriteToken(Token),
-                    Email = user.Email,
+                    Email = user.Email!,
                     RefreshTokenExpiration = refreshToken.ExpiresOn,
-                    UserName = user.UserName,
-                    Message=""
+                    UserName = user.UserName!,
+                    Message=string.Empty
                 }
             };
 

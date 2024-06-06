@@ -29,7 +29,6 @@
     "DeliverDate": "2023-06-04T10:00:00Z",
     "ShippingCost": 35.00
   },
-  //--------------
   {
     "Date": "2023-06-04T10:15:40Z",
     "Status": "Cancelled",
@@ -50,6 +49,7 @@
     "DeliverDate": "2023-06-09T16:00:00Z",
     "ShippingCost": 12.75
   },
+  //---------------
   {
     "Date": "2023-06-06T14:20:00Z",
     "Status": "Processing",
