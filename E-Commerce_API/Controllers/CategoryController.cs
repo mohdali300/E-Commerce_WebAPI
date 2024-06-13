@@ -1,5 +1,6 @@
 ﻿using E_CommerceAPI.ENTITES.DTOs;
 using E_CommerceAPI.SERVICES.UOW;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,6 +56,7 @@ namespace E_Commerce_API.Controllers
             return BadRequest(ModelState);
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpPost("AddCategory")]
         public async Task<IActionResult> AddCategory(CategoryDto dto)
         {
@@ -71,6 +73,7 @@ namespace E_Commerce_API.Controllers
             return BadRequest(ModelState);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("UpdateCategory")]
         public async Task<IActionResult> EditCategory(int id,CategoryDto dto)
         {
@@ -87,6 +90,7 @@ namespace E_Commerce_API.Controllers
             return BadRequest(ModelState);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("DeleteCategory")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
