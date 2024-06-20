@@ -1,2 +1,2 @@
 # E-Commerce_WebAPI
-E-Commerce Restful API with ASP .NET core
+E-Commerce Restful API with .NET 8
