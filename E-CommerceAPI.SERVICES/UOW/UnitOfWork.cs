@@ -31,7 +31,7 @@ namespace E_CommerceAPI.SERVICES.UOW
         public ICartRepository Carts { get; private set; }
         public ICartItemsRepository CartItems { get; private set; }
         public IGenericRepository<Review> Reviews { get; private set; }
-        public IGenericRepository<Wishlist> Wishlists { get; private set; }
+        public IWishlistRepository Wishlists { get; private set; }
         public IGenericRepository<WishlistItems> WishlistItems { get; private set; }
 
         public UnitOfWork(ECommerceDbContext context, IConfiguration configuration,
@@ -51,7 +51,7 @@ namespace E_CommerceAPI.SERVICES.UOW
             OrderItems= new OrderItemRepository(_context, _mapper, _httpContextAccessor, _userManager);
             Products = new ProductRepository(_context, _mapper);
             Reviews= new GenericRepository<Review>(_context);
-            Wishlists=new GenericRepository<Wishlist>(_context);
+            Wishlists=new WishlistRepository(_context,_mapper);
             WishlistItems=new GenericRepository<WishlistItems>(_context);
 
         }
