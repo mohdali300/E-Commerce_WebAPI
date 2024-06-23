@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_CommerceAPI.ENTITES.DTOs
+namespace E_CommerceAPI.ENTITES.DTOs.CartDTO
 {
     public class CartDto
     {

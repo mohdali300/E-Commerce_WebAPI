@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using E_CommerceAPI.ENTITES.DTOs;
+using E_CommerceAPI.ENTITES.DTOs.CartDTO;
 using E_CommerceAPI.ENTITES.Models;
 using E_CommerceAPI.SERVICES.Data;
 using E_CommerceAPI.SERVICES.Repositories.GenericRepository;

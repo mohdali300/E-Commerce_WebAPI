@@ -29,7 +29,7 @@ namespace E_CommerceAPI.SERVICES.UOW
         public IOrderItemRepository OrderItems { get; private set; }
         public ICategoryRepository Categories { get; private set; }
         public ICartRepository Carts { get; private set; }
-        public IGenericRepository<CartItems> CartItems { get; private set; }
+        public ICartItemsRepository CartItems { get; private set; }
         public IGenericRepository<Review> Reviews { get; private set; }
         public IGenericRepository<Wishlist> Wishlists { get; private set; }
         public IGenericRepository<WishlistItems> WishlistItems { get; private set; }
@@ -45,7 +45,7 @@ namespace E_CommerceAPI.SERVICES.UOW
 
             Customers = new AccountRepository(_context,_userManager,_configuration,_mapper, _httpContextAccessor);
             Carts = new CartRepository(_context,_mapper);
-            CartItems = new GenericRepository<CartItems>(_context);
+            CartItems = new CartItemsRepository(_context,_mapper);
             Categories= new CategoryRepository(_context,_mapper);
             Orders = new OrderRepository(_context,_mapper,_httpContextAccessor,_userManager);
             OrderItems= new OrderItemRepository(_context, _mapper, _httpContextAccessor, _userManager);
