@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace E_CommerceAPI.ENTITES.Models
@@ -14,6 +15,7 @@ namespace E_CommerceAPI.ENTITES.Models
         public string? Address { get; set; }
 
         public virtual ICollection<Order>? Orders { get; set; }=new List<Order>();
+        [JsonIgnore]
         public virtual ICollection<Cart>? Carts { get; set; } = new List<Cart>();
         public virtual ICollection<Wishlist>? Wishlists { get; set; }= new List<Wishlist>();
         public virtual ICollection<Payment>? Payments { get; set; } = new List<Payment>();
