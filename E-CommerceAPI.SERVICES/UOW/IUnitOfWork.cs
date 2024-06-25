@@ -19,7 +19,7 @@ namespace E_CommerceAPI.SERVICES.UOW
         ICategoryRepository Categories { get; }
         ICartRepository Carts { get; }
         ICartItemsRepository CartItems { get; }
-        IGenericRepository<Review> Reviews { get; }
+        IReviewRepository Reviews { get; }
         IWishlistRepository Wishlists { get; }
         IWishlistItemsRepository WishlistItems { get; }
 

@@ -43,6 +43,10 @@ namespace E_CommerceAPI.SERVICES.AutoMapper
                 .ForMember(dest => dest.WishlistName, src => src.MapFrom(src => src.Wishlist!.Name))
                 .ForMember(dest => dest.ProductName, src => src.MapFrom(src => src.Product!.Name))
                 .ReverseMap();
+
+            CreateMap<Review, ReviewDto>()
+                .ForMember(dest => dest.ProductName, src => src.MapFrom(src => src.Product!.Name))
+                .ReverseMap();
         }
     }
 }

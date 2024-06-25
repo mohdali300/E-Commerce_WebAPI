@@ -35,6 +35,8 @@ namespace E_CommerceAPI.ENTITES.Models
         public virtual ICollection<WishlistItems>? wishlistItems { get; set; }=new List<WishlistItems>();
         [JsonIgnore]
         public virtual ICollection<CartItems>? cartItems { get; set; }=new List<CartItems>();
+        [JsonIgnore]
+        public virtual ICollection<Review>? Reviews { get; set; } = new List<Review>();
 
     }
 }
