@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Stripe;
 using System.Text;
 
 namespace E_Commerce_API
@@ -100,6 +101,9 @@ namespace E_Commerce_API
 
                 });
             });
+
+            // stripe config
+            StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
             //injection
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
