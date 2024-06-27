@@ -322,6 +322,38 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
             };
         }
 
+        public async Task<ResponseDto> ResetPassword(ResetPasswordDto dto)
+        {
+            var user = await _userManager.FindByEmailAsync(dto.Email);
+            if (user == null)
+            {
+                return new ResponseDto
+                {
+                    StatusCode = 404,
+                    IsSucceeded = false,
+                    Message = "Email is INCORRECT!"
+                };
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, dto.NewPassword);
+            if (!result.Succeeded)
+            {
+                return new ResponseDto
+                {
+                    StatusCode = 400,
+                    IsSucceeded = false,
+                    Message = "Failed to reset password, try again."
+                };
+            }
+            return new ResponseDto
+            {
+                StatusCode = 200,
+                IsSucceeded = true,
+                Message = "Your password reseted successfully."
+            };
+        }
+
 
         private async Task<JwtSecurityToken> CreateToken(ApplicationUser user)
         {

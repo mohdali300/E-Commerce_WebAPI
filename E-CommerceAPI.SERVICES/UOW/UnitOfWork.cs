@@ -7,6 +7,7 @@ using E_CommerceAPI.SERVICES.Repositories.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace E_CommerceAPI.SERVICES.UOW
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IOptions<EmailSettings> _settings;
 
         public IAccountRepository Customers { get; private set; }
         public IProductRepository Products { get; private set; }
@@ -34,15 +36,18 @@ namespace E_CommerceAPI.SERVICES.UOW
         public IWishlistRepository Wishlists { get; private set; }
         public IWishlistItemsRepository WishlistItems { get; private set; }
         public ISessionRepository Sessions { get; private set; }
+        public IMailRepository Mails { get; private set; }
 
         public UnitOfWork(ECommerceDbContext context, IConfiguration configuration,
-            UserManager<ApplicationUser> userManager, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+            UserManager<ApplicationUser> userManager, IMapper mapper,
+            IHttpContextAccessor httpContextAccessor, IOptions<EmailSettings> setting)
         {
             _context = context;
             _configuration = configuration;
             _userManager=userManager;
             _mapper=mapper;
             _httpContextAccessor=httpContextAccessor;
+            _settings = setting;
 
             Customers = new AccountRepository(_context,_userManager,_configuration,_mapper, _httpContextAccessor);
             Carts = new CartRepository(_context,_mapper);
@@ -55,7 +60,7 @@ namespace E_CommerceAPI.SERVICES.UOW
             Wishlists=new WishlistRepository(_context,_mapper);
             WishlistItems=new WishlistItemsRepository(_context,_mapper);
             Sessions = new SessionRepository();
-
+            Mails = new MailRepository(_context,_settings);
         }
 
         public async Task<int> Save()

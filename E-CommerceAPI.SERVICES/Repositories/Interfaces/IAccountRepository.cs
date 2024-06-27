@@ -18,6 +18,7 @@ namespace E_CommerceAPI.SERVICES.Repositories.Interfaces
         public Task<ResponseDto> DeleteAccountAsync(LoginDto dto);
         public Task<ResponseDto> ChangePassword(PasswordSettingDto password);
         public Task<ResponseDto> UpdateProfile(UserDto user,string currentEmail);
+        public Task<ResponseDto> ResetPassword(ResetPasswordDto dto);
 
     }
 }

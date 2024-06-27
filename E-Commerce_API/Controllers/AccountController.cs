@@ -1,6 +1,8 @@
 ﻿using E_CommerceAPI.ENTITES.DTOs.UserDTO;
+using E_CommerceAPI.ENTITES.Models;
 using E_CommerceAPI.SERVICES.UOW;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce_API.Controllers
@@ -10,10 +12,12 @@ namespace E_Commerce_API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AccountController(IUnitOfWork unitOfWork)
+        public AccountController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
 
         [HttpPost("register")]
@@ -60,6 +64,33 @@ namespace E_Commerce_API.Controllers
                 if(response.IsSucceeded)
                     return StatusCode(response.StatusCode, response.Message);
                 return StatusCode(response.StatusCode, response.Message);
+            }
+            return BadRequest(ModelState);
+        }
+
+        [HttpPut("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto dto)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _unitOfWork.Customers.ResetPassword(dto);
+                if (response.IsSucceeded)
+                    return StatusCode(response.StatusCode, response.Message);
+                return StatusCode(response.StatusCode, response.Message);
+            }
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost("SendResetPasswordEmail")]
+        public async Task<IActionResult> SendResetPasswordEmail(string Subject="Reset Password")
+        {
+            var currentUser=await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+                return BadRequest("Not authenticated user.");
+            if (ModelState.IsValid)
+            {
+                await _unitOfWork.Mails.SendResetPasswordEmailAsync(currentUser,Subject);
+                return Ok();
             }
             return BadRequest(ModelState);
         }
