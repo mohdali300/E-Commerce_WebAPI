@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace E_CommerceAPI.ENTITES.DTOs.UserDTO
 {
-    public class PasswordSettingDto
+    public class ResetPasswordDto
     {
         public string Email { get; set; }
-        [DataType(DataType.Password)]
-        public string CurrentPassword { get; set; }
+        [Required]
         [DataType(DataType.Password)]
         public string NewPassword { get; set; }
         [Compare("NewPassword", ErrorMessage ="Not Matched!")]

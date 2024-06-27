@@ -294,7 +294,7 @@ namespace E_CommerceAPI.SERVICES.Repositories.Services
         public async Task<ResponseDto> ChangePassword(PasswordSettingDto dto)
         {
             var user=await _userManager.FindByEmailAsync(dto.Email);
-            if(user==null || await _userManager.CheckPasswordAsync(user,dto.CurrentPassword))
+            if(user==null || !await _userManager.CheckPasswordAsync(user,dto.CurrentPassword))
             {
                 return new ResponseDto
                 {

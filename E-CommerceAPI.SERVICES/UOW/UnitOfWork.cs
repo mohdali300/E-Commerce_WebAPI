@@ -33,6 +33,7 @@ namespace E_CommerceAPI.SERVICES.UOW
         public IReviewRepository Reviews { get; private set; }
         public IWishlistRepository Wishlists { get; private set; }
         public IWishlistItemsRepository WishlistItems { get; private set; }
+        public ISessionRepository Sessions { get; private set; }
 
         public UnitOfWork(ECommerceDbContext context, IConfiguration configuration,
             UserManager<ApplicationUser> userManager, IMapper mapper, IHttpContextAccessor httpContextAccessor)
@@ -53,6 +54,7 @@ namespace E_CommerceAPI.SERVICES.UOW
             Reviews= new ReviewRepository(_context,_mapper);
             Wishlists=new WishlistRepository(_context,_mapper);
             WishlistItems=new WishlistItemsRepository(_context,_mapper);
+            Sessions = new SessionRepository();
 
         }
 

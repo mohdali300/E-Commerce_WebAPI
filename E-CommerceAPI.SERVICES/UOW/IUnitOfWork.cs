@@ -22,6 +22,7 @@ namespace E_CommerceAPI.SERVICES.UOW
         IReviewRepository Reviews { get; }
         IWishlistRepository Wishlists { get; }
         IWishlistItemsRepository WishlistItems { get; }
+        ISessionRepository Sessions { get; }
 
         Task<int> Save();
     }

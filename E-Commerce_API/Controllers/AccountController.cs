@@ -51,6 +51,19 @@ namespace E_Commerce_API.Controllers
 
         }
 
+        [HttpPut("ChangePassword")]
+        public async Task<IActionResult> ChangePassword(PasswordSettingDto dto)
+        {
+            if(ModelState.IsValid)
+            {
+                var response=await _unitOfWork.Customers.ChangePassword(dto);
+                if(response.IsSucceeded)
+                    return StatusCode(response.StatusCode, response.Message);
+                return StatusCode(response.StatusCode, response.Message);
+            }
+            return BadRequest(ModelState);
+        }
+
         [HttpPost("refreshToken")]
         public async Task<IActionResult> NewRefreshToken([FromBody]string email)
         {

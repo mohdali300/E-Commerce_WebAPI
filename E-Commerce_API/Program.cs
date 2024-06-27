@@ -6,6 +6,7 @@ using E_CommerceAPI.SERVICES.UOW;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Stripe;
@@ -57,11 +58,12 @@ namespace E_Commerce_API
                 }
                 );
 
+            #region Swagger Authentication
             builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("Customer", policy => policy.RequireRole("Customer"));
-            });
+               {
+                   options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+                   options.AddPolicy("Customer", policy => policy.RequireRole("Customer"));
+               });
 
             builder.Services.AddSwaggerGen(options =>
             {
@@ -100,10 +102,14 @@ namespace E_Commerce_API
                     }
 
                 });
-            });
+            }); 
+            #endregion
 
             // stripe config
             StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+
+            //Email config
+            builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
             //injection
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
