@@ -40,6 +40,7 @@ namespace E_CommerceAPI.SERVICES.UOW
         public ISessionRepository Sessions { get; private set; }
         public IMailRepository Mails { get; private set; }
         public IPaymentRepository Payments { get; private set; }
+        public IBrandRepository Brands { get; private set; }
 
         public UnitOfWork(ECommerceDbContext context, IConfiguration configuration,
             UserManager<ApplicationUser> userManager, IMapper mapper,
@@ -66,6 +67,7 @@ namespace E_CommerceAPI.SERVICES.UOW
             Sessions = new SessionRepository();
             Mails = new MailRepository(_context,_settings);
             Payments = new PaymentRepository(_context, _stripeSettings, _mapper);
+            Brands=new BrandRepository(_context,_mapper);
         }
 
         public async Task<int> Save()

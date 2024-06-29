@@ -34,6 +34,7 @@ namespace E_CommerceAPI.SERVICES.AutoMapper
                 .ReverseMap();
 
             CreateMap<Category, CategoryDto>().ReverseMap();
+            CreateMap<Brand,BrandDto>().ReverseMap();
             CreateMap<Cart, CartDto>().ReverseMap();
             CreateMap<CartItems, CartItemsDto>()
                 .ForMember(dest => dest.ProductName, src => src.MapFrom(src => src.Product!.Name))
