@@ -7,6 +7,7 @@ using AutoMapper;
 using E_CommerceAPI.ENTITES.DTOs;
 using E_CommerceAPI.ENTITES.DTOs.CartDTO;
 using E_CommerceAPI.ENTITES.DTOs.OrderDTO;
+using E_CommerceAPI.ENTITES.DTOs.PaymentDTO;
 using E_CommerceAPI.ENTITES.DTOs.ProductDTO;
 using E_CommerceAPI.ENTITES.DTOs.UserDTO;
 using E_CommerceAPI.ENTITES.DTOs.WishlistDTO;
@@ -47,6 +48,8 @@ namespace E_CommerceAPI.SERVICES.AutoMapper
             CreateMap<Review, ReviewDto>()
                 .ForMember(dest => dest.ProductName, src => src.MapFrom(src => src.Product!.Name))
                 .ReverseMap();
+
+            CreateMap<Payment, PaymentDto>().ReverseMap();
         }
     }
 }

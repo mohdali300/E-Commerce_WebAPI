@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using E_CommerceAPI.ENTITES.DTOs.PaymentDTO;
 using E_CommerceAPI.ENTITES.Models;
 using E_CommerceAPI.SERVICES.Data;
 using E_CommerceAPI.SERVICES.Repositories.GenericRepository;
@@ -24,6 +25,7 @@ namespace E_CommerceAPI.SERVICES.UOW
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IOptions<EmailSettings> _settings;
+        IOptions<StripeSettings> _stripeSettings;
 
         public IAccountRepository Customers { get; private set; }
         public IProductRepository Products { get; private set; }
@@ -37,10 +39,11 @@ namespace E_CommerceAPI.SERVICES.UOW
         public IWishlistItemsRepository WishlistItems { get; private set; }
         public ISessionRepository Sessions { get; private set; }
         public IMailRepository Mails { get; private set; }
+        public IPaymentRepository Payments { get; private set; }
 
         public UnitOfWork(ECommerceDbContext context, IConfiguration configuration,
             UserManager<ApplicationUser> userManager, IMapper mapper,
-            IHttpContextAccessor httpContextAccessor, IOptions<EmailSettings> setting)
+            IHttpContextAccessor httpContextAccessor, IOptions<EmailSettings> setting, IOptions<StripeSettings> stripeSettings)
         {
             _context = context;
             _configuration = configuration;
@@ -48,6 +51,7 @@ namespace E_CommerceAPI.SERVICES.UOW
             _mapper=mapper;
             _httpContextAccessor=httpContextAccessor;
             _settings = setting;
+            _stripeSettings=stripeSettings;
 
             Customers = new AccountRepository(_context,_userManager,_configuration,_mapper, _httpContextAccessor);
             Carts = new CartRepository(_context,_mapper);
@@ -61,6 +65,7 @@ namespace E_CommerceAPI.SERVICES.UOW
             WishlistItems=new WishlistItemsRepository(_context,_mapper);
             Sessions = new SessionRepository();
             Mails = new MailRepository(_context,_settings);
+            Payments = new PaymentRepository(_context, _stripeSettings, _mapper);
         }
 
         public async Task<int> Save()

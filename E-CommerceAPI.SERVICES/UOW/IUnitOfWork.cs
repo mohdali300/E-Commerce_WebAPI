@@ -24,6 +24,7 @@ namespace E_CommerceAPI.SERVICES.UOW
         IWishlistItemsRepository WishlistItems { get; }
         ISessionRepository Sessions { get; }
         IMailRepository Mails { get; }
+        IPaymentRepository Payments { get; }
 
         Task<int> Save();
     }
