@@ -1,0 +1,42 @@
+{
+  {
+    "Name": "Electronics",
+    "ParentCategoryId": null
+  },
+  {
+    "Name": "Mobile Phones",
+    "ParentCategoryId": 1
+  },
+  {
+    "Name": "Laptops",
+    "ParentCategoryId": 1
+  },
+  {
+    "Name": "Home Appliances",
+    "ParentCategoryId": null
+  },
+  {
+    "Name": "Refrigerators",
+    "ParentCategoryId": 4
+  },
+  {
+    "Name": "Washing Machines",
+    "ParentCategoryId": 4
+  },
+  {
+    "Name": "Furniture",
+    "ParentCategoryId": null
+  },
+  {
+    "Name": "Sofas",
+    "ParentCategoryId": 7
+  },
+  {
+    "Name": "Beds",
+    "ParentCategoryId": 7
+  },
+  {
+    "Name": "Office Supplies",
+    "ParentCategoryId": null
+  }
+}

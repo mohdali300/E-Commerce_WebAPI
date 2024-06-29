@@ -1,0 +1,132 @@
+{
+  {
+    "Name": "Samsung Galaxy S21",
+    "Description": "Latest Samsung smartphone with advanced features.",
+    "Price": 799.99,
+    "StockAmount": 50,
+    "DiscountPercentage": 10.0,
+    "Image": null,
+    "CategoryId": 2,
+    "BrandId": 1
+  },
+  {
+    "Name": "Nike Air Max 270",
+    "Description": "Comfortable and stylish running shoes.",
+    "Price": 150.00,
+    "StockAmount": 100,
+    "DiscountPercentage": 5.0,
+    "Image": null,
+    "CategoryId": null,
+    "BrandId": 2
+  },
+  {
+    "Name": "Sony WH-1000XM4",
+    "Description": "Noise-canceling wireless headphones.",
+    "Price": 350.00,
+    "StockAmount": 30,
+    "DiscountPercentage": 15.0,
+    "Image": null,
+    "CategoryId": 1,
+    "BrandId": 3
+  },
+  {
+    "Name": "Whirlpool Refrigerator",
+    "Description": "Energy-efficient refrigerator with spacious storage.",
+    "Price": 1200.00,
+    "StockAmount": 20,
+    "DiscountPercentage": null,
+    "Image": null,
+    "CategoryId": 5,
+    "BrandId": 4
+  },
+  {
+    "Name": "Ikea Sofa",
+    "Description": "Comfortable and modern sofa for your living room.",
+    "Price": 499.99,
+    "StockAmount": 15,
+    "DiscountPercentage": 10.0,
+    "Image": null,
+    "CategoryId": 8,
+    "BrandId": 5
+  },
+  {
+    "Name": "Adidas Ultraboost",
+    "Description": "High-performance running shoes.",
+    "Price": 180.00,
+    "StockAmount": 80,
+    "DiscountPercentage": null,
+    "Image": null,
+    "CategoryId": null,
+    "BrandId": 6
+  },
+  {
+    "Name": "Asus ZenBook",
+    "Description": "Lightweight and powerful laptop for professionals.",
+    "Price": 999.99,
+    "StockAmount": 25,
+    "DiscountPercentage": 10.0,
+    "Image": null,
+    "CategoryId": 3,
+    "BrandId": 8
+  },
+  {
+    "Name": "Philips LED TV",
+    "Description": "High-definition LED TV with smart features.",
+    "Price": 600.00,
+    "StockAmount": 40,
+    "DiscountPercentage": 5.0,
+    "Image": null,
+    "CategoryId": 1,
+    "BrandId": 10
+  },
+  {
+    "Name": "Samsung Washing Machine",
+    "Description": "Efficient washing machine with multiple modes.",
+    "Price": 800.00,
+    "StockAmount": 30,
+    "DiscountPercentage": null,
+    "Image": null,
+    "CategoryId": 6,
+    "BrandId": 1
+  },
+  {
+    "Name": "Nike Sports Jacket",
+    "Description": "Lightweight and breathable sports jacket.",
+    "Price": 90.00,
+    "StockAmount": 60,
+    "DiscountPercentage": 20.0,
+    "Image": null,
+    "CategoryId": null,
+    "BrandId": 2
+  },
+  {
+    "Name": "Sony PlayStation 5",
+    "Description": "Next-gen gaming console with stunning graphics.",
+    "Price": 499.99,
+    "StockAmount": 45,
+    "DiscountPercentage": null,
+    "Image": null,
+    "CategoryId": 1,
+    "BrandId": 3
+  },
+  {
+    "Name": "Ikea Dining Table",
+    "Description": "Elegant dining table for modern homes.",
+    "Price": 299.99,
+    "StockAmount": 20,
+    "DiscountPercentage": 5.0,
+    "Image": null,
+    "CategoryId": 7,
+    "BrandId": 5
+  },
+  {
+    "Name": "Philips Air Fryer",
+    "Description": "Healthy air fryer for quick and easy cooking.",
+    "Price": 150.00,
+    "StockAmount": 50,
+    "DiscountPercentage": null,
+    "Image": null,
+    "CategoryId": 4,
+    "BrandId": 10
+  }
+}

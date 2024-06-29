@@ -1,0 +1,42 @@
+{
+  {
+    "Name": "Samsung",
+    "Email": "contact@samsung.com",
+    "Phone": "+1234567890"
+  },
+  {
+    "Name": "Nike",
+    "Email": "support@nike.com",
+    "Phone": "+0987654321"
+  },
+  {
+    "Name": "Sony",
+    "Email": "info@sony.com",
+    "Phone": "+1122334455"
+  },
+  {
+    "Name": "Whirlpool",
+    "Email": "service@whirlpool.com",
+    "Phone": "+2233445566"
+  },
+  {
+    "Name": "Ikea",
+    "Email": "support@ikea.com",
+    "Phone": "+3344556677"
+  },
+  {
+    "Name": "Adidas",
+    "Email": "contact@adidas.com",
+    "Phone": "+4455667788"
+  },
+  {
+    "Name": "Asus",
+    "Email": "service@asus.com",
+    "Phone": "+6677889900"
+  },
+  {
+    "Name": "Philips",
+    "Email": "support@philips.com",
+    "Phone": "+8899001122"
+  }
+}
