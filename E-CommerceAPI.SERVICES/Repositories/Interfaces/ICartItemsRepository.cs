@@ -1,6 +1,7 @@
 ﻿using E_CommerceAPI.ENTITES.DTOs;
 using E_CommerceAPI.ENTITES.DTOs.CartDTO;
 using E_CommerceAPI.ENTITES.Models;
+using E_CommerceAPI.SERVICES.Repositories.GenericRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace E_CommerceAPI.SERVICES.Repositories.Interfaces
 {
-    public interface ICartItemsRepository
+    public interface ICartItemsRepository: IGenericRepository<CartItems>
     {
         Task<ResponseDto> GetAllCartsItems();
         public Task<ResponseDto> GetCartItem(int id);

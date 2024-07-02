@@ -1,4 +1,6 @@
 ﻿using E_CommerceAPI.ENTITES.DTOs;
+using E_CommerceAPI.ENTITES.Models;
+using E_CommerceAPI.SERVICES.Repositories.GenericRepository;
 using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace E_CommerceAPI.SERVICES.Repositories.Interfaces
 {
-    public interface IBrandRepository
+    public interface IBrandRepository:IGenericRepository<Brand>
     {
         public Task<ResponseDto> GetAllBrands();
         public Task<ResponseDto> GetBrandById(int id);
